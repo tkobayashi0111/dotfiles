@@ -1,0 +1,73 @@
+# ---------------------------------------------------------------------------- #
+#                                      env                                     #
+# ---------------------------------------------------------------------------- #
+# editor
+if command -v nvim &> /dev/null; then
+    export EDITOR=nvim
+elif command -v vim &> /dev/null; then
+    export EDITOR=vim
+fi
+
+# anyenv
+if command -v anyenv &> /dev/null; then
+    eval "$(anyenv init -)"
+fi
+
+# rust
+if [ -e ~/.cargo/env ]; then
+    source ~/.cargo/env
+fi
+
+# flutter
+if [ -e ~/flutter/bin ]; then
+    export PATH=$PATH:~/flutter/bin
+fi
+# fvm
+if command -v fvm &> /dev/null; then
+    export PATH=$PATH:~/fvm/default/bin
+fi
+
+# JDK
+if [ -e /usr/lib/jvm/java-11/openjdk-amd64 ]; then
+    export JAVA_HOME=/usr/lib/jvm/java-11/openjdk-amd64
+    export PATH=$PATH:$JAVA_HOME/bin
+fi
+
+# Android
+if [ -e ~/Android/SDK ]; then
+    export ANDROID_HOME=~/Android/SDK
+    export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
+    export PATH=$PATH:$ANDROID_HOME/platform-tools
+fi
+if [ -e ~/Library/Android/sdk ]; then
+    export ANDROID_SDK_ROOT=~/Library/Android/sdk
+fi
+
+# bat theme
+{{- if index . "bat_theme" }}
+export BAT_THEME={{ .bat_theme }}
+{{- else }}
+export BAT_THEME=OneHalfDark
+{{- end }}
+
+zinit wait lucid blockf light-mode for \
+  zdharma-continuum/fast-syntax-highlighting \
+  zsh-users/zsh-completions
+
+# zsh-fzf-history-search
+ZSH_FZF_HISTORY_SEARCH_EVENT_NUMBERS=0
+ZSH_FZF_HISTORY_SEARCH_DATES_IN_SEARCH=0
+zinit ice lucid wait'0'
+zinit light joshskidmore/zsh-fzf-history-search
+
+# ---------------------------------------------------------------------------- #
+#                                     alias                                    #
+# ---------------------------------------------------------------------------- #
+alias ls='ls --color=auto'
+alias la='ls -al'
+
+# pyenvが入っているときbrew doctorのwarning対策
+# https://github.com/pyenv/pyenv/issues/106
+if command -v pyenv &> /dev/null && command -v brew &> /dev/null; then
+    alias brew='env PATH=${PATH//$(pyenv root)\/shims:/} brew'
+fi
