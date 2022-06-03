@@ -1,0 +1,21 @@
+[user]
+{{- if index . "git_name" }}
+  name = {{ .git_name }}
+{{- end }}
+{{- if index . "git_email" }}
+  email = {{ .git_email }}
+{{- end }}
+[core]
+  editor = nvim
+  pager = delta
+[interactive]
+  diffFilter = delta --color-only
+[delta]
+  navigate = true
+  light = false
+  side-by-side = true
+  line-numbers-zero-style = 246
+[merge]
+  conflictstyle = diff3
+[diff]
+  colorMoved = default
