@@ -304,7 +304,9 @@ require('packer').startup(function(use)
   }
   use {
     'chentoast/marks.nvim',
-    require('marks').setup {}
+    config = function()
+      require('marks').setup {}
+    end
   }
   use({
     'crispgm/nvim-tabline',
