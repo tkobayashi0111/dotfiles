@@ -3,3 +3,8 @@ gui:
 git:
   paging:
     pager: delta --paging=never
+customCommands:
+  - context: localBranches
+    key: u
+    command: 'git fetch origin {{ .SelectedLocalBranch.Name }}:{{ .SelectedLocalBranch.Name }}'
+    description: pull selected branch
