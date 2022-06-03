@@ -1,24 +1,23 @@
 ### Added by Zinit's installer
-if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
-    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
-    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.zinit/bin" && \
-        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
-        print -P "%F{160}▓▒░ The clone has failed.%f%b"
+if [[ ! -f $HOME/.local/share/zinit/zinit.git/zinit.zsh ]]; then
+    print -P "%F{33} %F{220}Installing %F{33}ZDHARMA-CONTINUUM%F{220} Initiative Plugin Manager (%F{33}zdharma-continuum/zinit%F{220})…%f"
+    command mkdir -p "$HOME/.local/share/zinit" && command chmod g-rwX "$HOME/.local/share/zinit"
+    command git clone https://github.com/zdharma-continuum/zinit "$HOME/.local/share/zinit/zinit.git" && \
+        print -P "%F{33} %F{34}Installation successful.%f%b" || \
+        print -P "%F{160} The clone has failed.%f%b"
 fi
 
-source "$HOME/.zinit/bin/zinit.zsh"
+source "$HOME/.local/share/zinit/zinit.git/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
 # Load a few important annexes, without Turbo
 # (this is currently required for annexes)
 zinit light-mode for \
-    zdharma-continuum/zinit-annex-rust \
-    zdharma-continuum/zinit-annex-readurl \
+    zdharma-continuum/zinit-annex-as-monitor \
+    zdharma-continuum/zinit-annex-bin-gem-node \
     zdharma-continuum/zinit-annex-patch-dl \
-    zdharma-continuum/zinit-annex-bin-gem-node
-
+    zdharma-continuum/zinit-annex-rust
 ### End of Zinit's installer chunk
 
 # ---------------------------------------------------------------------------- #
@@ -37,6 +36,8 @@ zinit light joshskidmore/zsh-fzf-history-search
 #                                      env                                     #
 # ---------------------------------------------------------------------------- #
 export LANG=ja_JP.UTF-8
+# 曖昧幅の文字を半角で表示していることを明示
+export RUNEWIDTH_EASTASIAN=0
 
 # homebrew
 if [ -e /usr/local/bin/brew ]; then
@@ -47,6 +48,8 @@ elif [ -e /home/linuxbrew/.linuxbrew/bin/brew ]; then
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 elif [ -e ~/homebrew/bin/brew ]; then
     eval "$(~/homebrew/bin/brew shellenv)"
+    # caskでユーザー配下のApplicationsにインストールする
+    export HOMEBREW_CASK_OPTS="--appdir=~/Applications"
 fi
 
 # editor
@@ -70,6 +73,10 @@ fi
 if [ -e ~/flutter/bin ]; then
     export PATH=$PATH:~/flutter/bin
 fi
+# fvm
+if command -v fvm &> /dev/null; then
+    export PATH=$PATH:~/fvm/default/bin
+fi
 
 # JDK
 if [ -e /usr/lib/jvm/java-11/openjdk-amd64 ]; then
@@ -78,11 +85,21 @@ if [ -e /usr/lib/jvm/java-11/openjdk-amd64 ]; then
 fi
 
 # Android
-if [ -e $HOME/Android/SDK ]; then
-    export ANDROID_HOME=$HOME/Android/SDK
+if [ -e ~/Android/SDK ]; then
+    export ANDROID_HOME=~/Android/SDK
     export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
     export PATH=$PATH:$ANDROID_HOME/platform-tools
 fi
+if [ -e ~/Library/Android/sdk ]; then
+    export ANDROID_SDK_ROOT=~/Library/Android/sdk
+fi
+
+# bat theme
+{{- if index . "bat_theme" }}
+export BAT_THEME={{ .bat_theme }}
+{{- else }}
+export BAT_THEME=OneHalfDark
+{{- end }}
 
 # ---------------------------------------------------------------------------- #
 #                                  zsh config                                  #
@@ -91,7 +108,7 @@ fi
 autoload -Uz compinit && compinit
 
 # ヒストリの設定
-HISTFILE="${HOME}/.zsh_history"
+HISTFILE="~/.zsh_history"
 HISTSIZE=1000000
 SAVEHIST=1000000
 
@@ -119,6 +136,42 @@ setopt hist_reduce_blanks
 # 補完時にヒストリを自動的に展開
 setopt hist_expand
 
+# auto-suggestionsの色変更
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=246'
+
+# viinsキーマップ
+bindkey -v
+bindkey -M viins 'jj' vi-cmd-mode
+# emacsのキーマップを一部使えるように
+bindkey -M viins '^A' beginning-of-line
+bindkey -M viins '^E' end-of-line
+bindkey -M viins '^K' kill-line
+bindkey -M viins '^U' backward-kill-line
+bindkey -M viins '^W' backward-kill-word
+bindkey -M viins '^Y' yank
+bindkey -M viins '^R' history-search-multi-word
+
+# Change cursor shape for different vi modes.
+function zle-keymap-select {
+  if [[ ${KEYMAP} == vicmd ]] ||
+     [[ $1 = 'block' ]]; then
+    echo -ne '\e[1 q'
+  elif [[ ${KEYMAP} == main ]] ||
+       [[ ${KEYMAP} == viins ]] ||
+       [[ ${KEYMAP} = '' ]] ||
+       [[ $1 = 'beam' ]]; then
+    echo -ne '\e[5 q'
+  fi
+}
+zle -N zle-keymap-select
+zle-line-init() {
+    zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
+    echo -ne "\e[5 q"
+}
+zle -N zle-line-init
+echo -ne '\e[5 q' # Use beam shape cursor on startup.
+preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
+
 # ---------------------------------------------------------------------------- #
 #                                     alias                                    #
 # ---------------------------------------------------------------------------- #
@@ -135,5 +188,5 @@ fi
 #                                    prompt                                    #
 # ---------------------------------------------------------------------------- #
 if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
-  eval "$(oh-my-posh init zsh)"
+  eval "$(oh-my-posh init zsh --config ~/.ohmyposh.mytheme.json)"
 fi
