@@ -1,0 +1,11 @@
+{{- $remote_containers:= env "REMOTE_CONTAINERS" | not | not -}}
+{{- $wsl:= and (not $remote_containers) (eq .chezmoi.os "linux") (.chezmoi.kernel.osrelease | lower | contains "microsoft") }}
+sourceDir = {{ .chezmoi.sourceDir | quote }}
+
+[data]
+  remote_containers = {{ $remote_containers }}
+  wsl = {{ $wsl }}
+{{- if not $remote_containers }}
+  git_name = {{ promptString "git user.name" | quote }}
+  git_email = {{ promptString "git user.email" | quote }}
+{{- end }}

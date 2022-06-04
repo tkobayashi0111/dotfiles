@@ -1,0 +1,21 @@
+tap "homebrew/bundle"
+tap "homebrew/core"
+tap "jandedobbeleer/oh-my-posh"
+brew "bat"
+brew "chezmoi"
+brew "exa"
+brew "fzf"
+brew "git-delta"
+brew "jq"
+brew "kustomize"
+brew "lazygit"
+brew "neovim"
+brew "ripgrep"
+brew "zsh"
+brew "jandedobbeleer/oh-my-posh/oh-my-posh"
+
+{{- if not .remote_containers }}
+brew "anyenv"
+brew "git"
+brew "tmux"
+{{- end }}

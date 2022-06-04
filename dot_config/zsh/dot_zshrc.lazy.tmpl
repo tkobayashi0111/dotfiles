@@ -8,7 +8,7 @@ elif command -v vim &> /dev/null; then
     export EDITOR=vim
 fi
 
-{{ if and (eq .chezmoi.os "linux") (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
+{{ if .wsl -}}
 # in WSL, integrate clipboard. require VcXsrc
 LOCAL_IP=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}')
 export DISPLAY=$LOCAL_IP:0
