@@ -39,13 +39,3 @@ vim.cmd([[
     autocmd BufWritePost plugins.lua source <afile> | PackerCompile
   augroup end
 ]])
-
--- wslでyank時にclipboard連携
-vim.cmd([[
-  if system('uname -a | grep microsoft') != ''
-    augroup myYank
-      autocmd!
-      autocmd TextYankPost * :call system('clip.exe', @")
-    augroup END
-  endif"
-]])
