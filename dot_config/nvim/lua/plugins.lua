@@ -6,7 +6,6 @@ require('packer').startup(function(use)
   use { 'vim-jp/vimdoc-ja' }
 
   -- colorscheme
-  vim.cmd("colorscheme nordfox")
   use {
     'EdenEast/nightfox.nvim',
     config = function()
@@ -17,6 +16,7 @@ require('packer').startup(function(use)
           }
         }
       })
+      vim.cmd [[colorscheme nordfox]]
     end
   }
   use { 'folke/tokyonight.nvim' }
