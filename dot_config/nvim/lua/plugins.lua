@@ -33,6 +33,7 @@ require('packer').startup(function(use)
     },
     config = function()
       require('neo-tree').setup({
+        close_if_last_window = false,
         filesystem = {
           filtered_items = {
             hide_dotfiles = false,
@@ -235,6 +236,11 @@ require('packer').startup(function(use)
     config = function()
       local cmp = require('cmp')
       cmp.setup({
+        snippet = {
+          expand = function(args)
+            vim.fn["vsnip#annonymous"](args.body)
+          end
+        },
         mapping = cmp.mapping.preset.insert({
           ['<C-b>'] = cmp.mapping.scroll_docs(-4),
           ['<C-f>'] = cmp.mapping.scroll_docs(4),
@@ -258,6 +264,8 @@ require('packer').startup(function(use)
   use { 'hrsh7th/cmp-buffer' }
   use { 'hrsh7th/cmp-path' }
   use { 'hrsh7th/cmp-cmdline' }
+  use { 'hrsh7th/cmp-vsnip' }
+  use { 'hrsh7th/vim-vsnip' }
   use { 'folke/lsp-colors.nvim' }
   use {
     'folke/trouble.nvim',
@@ -291,7 +299,45 @@ require('packer').startup(function(use)
     'nvim-lualine/lualine.nvim',
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
     config = function()
-      require('lualine').setup({})
+      require('lualine').setup({
+        sections = {
+          lualine_c = {
+            {
+              'filename',
+              path = 1
+            }
+          }
+        }
+      })
+    end
+  }
+  use {
+    'akinsho/bufferline.nvim',
+    tag = 'v2.*',
+    requires = 'kyazdani42/nvim-web-devicons',
+    config = function()
+      require('bufferline').setup({
+        options = {
+          middle_mouse_command = 'bdelete! %d',
+          diagnostics = 'nvim_lsp',
+          separator_style = 'thick',
+          offsets = {
+            {
+              filetype = 'neo-tree',
+              text = 'Neotree',
+            }
+          },
+          name_formatter = function(buf)
+            return vim.fn.pathshorten(vim.fn.fnamemodify(buf.path, ":~:."))
+          end,
+          max_name_length = 50,
+        }
+      })
+
+      vim.api.nvim_set_keymap('n', 'Gt', ':tabnext<cr>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', 'GT', ':tabprevious<cr>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', 'gt', ':BufferLineCycleNext<cr>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', 'gT', ':BufferLineCyclePrev<cr>', { noremap = true, silent = true })
     end
   }
   use {
