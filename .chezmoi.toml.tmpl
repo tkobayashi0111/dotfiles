@@ -6,6 +6,18 @@ sourceDir = {{ .chezmoi.sourceDir | quote }}
   remote_containers = {{ $remote_containers }}
   wsl = {{ $wsl }}
 {{- if not $remote_containers }}
+{{- if index . "git_name" }}
+  git_name = {{ .git_name | quote }}
+{{- else }}
   git_name = {{ promptString "git user.name" | quote }}
+{{- end }}
+{{- if index . "git_email" }}
+  git_email = {{ .git_email | quote }}
+{{- else }}
   git_email = {{ promptString "git user.email" | quote }}
 {{- end }}
+{{- end }}
+
+[merge]
+  command = "nvim"
+  args = ["-d", "{{`{{ .Destination }}`}}", "{{`{{ .Source }}`}}", "{{`{{ .Target }}`}}"]
