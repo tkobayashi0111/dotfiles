@@ -29,16 +29,18 @@ export RUNEWIDTH_EASTASIAN=0
 
 # homebrew
 # oh-my-poshのためにここで読み込む
-if [ -e /usr/local/bin/brew ]; then
-    eval "$(/usr/local/bin/brew shellenv)"
-elif [ -e /opt/homebrew/bin/brew ]; then
-    eval "$(/opt/homebrew/bin/brew)"
-elif [ -e /home/linuxbrew/.linuxbrew/bin/brew ]; then
-    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-elif [ -e ~/homebrew/bin/brew ]; then
-    eval "$(~/homebrew/bin/brew shellenv)"
-    # caskでユーザー配下のApplicationsにインストールする
-    export HOMEBREW_CASK_OPTS="--appdir=~/Applications"
+if [[ -z $TMUX ]]; then
+    if [ -e /usr/local/bin/brew ]; then
+        eval "$(/usr/local/bin/brew shellenv)"
+    elif [ -e /opt/homebrew/bin/brew ]; then
+        eval "$(/opt/homebrew/bin/brew)"
+    elif [ -e /home/linuxbrew/.linuxbrew/bin/brew ]; then
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    elif [ -e ~/homebrew/bin/brew ]; then
+        eval "$(~/homebrew/bin/brew shellenv)"
+        # caskでユーザー配下のApplicationsにインストールする
+        export HOMEBREW_CASK_OPTS="--appdir=~/Applications"
+    fi
 fi
 
 # ---------------------------------------------------------------------------- #

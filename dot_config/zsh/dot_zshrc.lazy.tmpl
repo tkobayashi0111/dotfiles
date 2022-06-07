@@ -1,66 +1,71 @@
 # ---------------------------------------------------------------------------- #
 #                                      env                                     #
 # ---------------------------------------------------------------------------- #
+if [[ -z $TMUX ]]; then
 # editor
-if command -v nvim &> /dev/null; then
-    export EDITOR=nvim
-elif command -v vim &> /dev/null; then
-    export EDITOR=vim
-fi
+    if command -v nvim &> /dev/null; then
+        export EDITOR=nvim
+    elif command -v vim &> /dev/null; then
+        export EDITOR=vim
+    fi
 
-{{ if .wsl -}}
+    {{ if .wsl -}}
 # in WSL, integrate clipboard. require VcXsrc
-LOCAL_IP=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}')
-export DISPLAY=$LOCAL_IP:0
-{{- end }}
+    LOCAL_IP=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}')
+    export DISPLAY=$LOCAL_IP:0
+    {{- end }}
 
 # anyenv
-if command -v anyenv &> /dev/null; then
-    eval "$(anyenv init -)"
-fi
+    if command -v anyenv &> /dev/null; then
+        eval "$(anyenv init -)"
+    fi
 
 # lazygit
-if command -v lazygit &> /dev/null; then
-    export CONFIG_DIR=~/.config/lazygit
-fi
+    if command -v lazygit &> /dev/null; then
+        export CONFIG_DIR=~/.config/lazygit
+    fi
 
 # rust
-if [ -e ~/.cargo/env ]; then
-    source ~/.cargo/env
-fi
+    if [ -e ~/.cargo/env ]; then
+        source ~/.cargo/env
+    fi
 
 # flutter
-if [ -e ~/flutter/bin ]; then
-    export PATH=$PATH:~/flutter/bin
-fi
+    if [ -e ~/flutter/bin ]; then
+        export PATH=$PATH:~/flutter/bin
+    fi
 # fvm
-if command -v fvm &> /dev/null; then
-    export PATH=$PATH:~/fvm/default/bin
-fi
+    if command -v fvm &> /dev/null; then
+        export PATH=$PATH:~/fvm/default/bin
+    fi
 
 # JDK
-if [ -e /usr/lib/jvm/java-11/openjdk-amd64 ]; then
-    export JAVA_HOME=/usr/lib/jvm/java-11/openjdk-amd64
-    export PATH=$PATH:$JAVA_HOME/bin
-fi
+    if [ -e /usr/lib/jvm/java-11/openjdk-amd64 ]; then
+        export JAVA_HOME=/usr/lib/jvm/java-11/openjdk-amd64
+        export PATH=$PATH:$JAVA_HOME/bin
+    fi
 
 # Android
-if [ -e ~/Android/SDK ]; then
-    export ANDROID_HOME=~/Android/SDK
-    export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
-    export PATH=$PATH:$ANDROID_HOME/platform-tools
-fi
-if [ -e ~/Library/Android/sdk ]; then
-    export ANDROID_SDK_ROOT=~/Library/Android/sdk
-fi
+    if [ -e ~/Android/SDK ]; then
+        export ANDROID_HOME=~/Android/SDK
+        export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
+        export PATH=$PATH:$ANDROID_HOME/platform-tools
+    fi
+    if [ -e ~/Library/Android/sdk ]; then
+        export ANDROID_SDK_ROOT=~/Library/Android/sdk
+    fi
 
 # bat theme
-{{- if index . "bat_theme" }}
-export BAT_THEME={{ .bat_theme }}
-{{- else }}
-export BAT_THEME=OneHalfDark
-{{- end }}
+    {{- if index . "bat_theme" }}
+    export BAT_THEME={{ .bat_theme }}
+    {{- else }}
+    export BAT_THEME=OneHalfDark
+    {{- end }}
+fi
 
+# ---------------------------------------------------------------------------- #
+#                                    plugin                                    #
+# ---------------------------------------------------------------------------- #
 zinit wait lucid blockf light-mode for \
   zdharma-continuum/fast-syntax-highlighting \
   zsh-users/zsh-completions
