@@ -54,8 +54,12 @@ fi
 {{- end }}
 
 if ! type delta > /dev/null; then
-  wget https://github.com/dandavison/delta/releases/latest/download/git-delta_0.13.0_amd64.deb -O /tmp/git-delta_amd64.deb
-  apt-get install /tmp/git-delta_amd64.deb
+{{- if ne .chezmoi.arch "arm64" }}
+  wget https://github.com/dandavison/delta/releases/latest/download/git-delta_0.13.0_amd64.deb -O /tmp/git-delta.deb
+{{- else }}
+  wget https://github.com/dandavison/delta/releases/latest/download/git-delta_0.13.0_arm64.deb -O /tmp/git-delta.deb
+{{- end }}
+  apt-get install /tmp/git-delta.deb
 fi
 {{- end }}
 
