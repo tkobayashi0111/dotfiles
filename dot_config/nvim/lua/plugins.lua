@@ -238,7 +238,7 @@ require('packer').startup(function(use)
       cmp.setup({
         snippet = {
           expand = function(args)
-            vim.fn["vsnip#annonymous"](args.body)
+            vim.fn["vsnip#anonymous"](args.body)
           end
         },
         mapping = cmp.mapping.preset.insert({
