@@ -354,10 +354,8 @@ require('packer').startup(function(use)
         }
       })
 
-      vim.api.nvim_set_keymap('n', '<leader>gt', ':tabnext<cr>', { noremap = true, silent = true })
-      vim.api.nvim_set_keymap('n', '<leader>GT', ':tabprevious<cr>', { noremap = true, silent = true })
-      vim.api.nvim_set_keymap('n', 'gt', ':BufferLineCycleNext<cr>', { noremap = true, silent = true })
-      vim.api.nvim_set_keymap('n', 'gT', ':BufferLineCyclePrev<cr>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<Tab>', ':BufferLineCycleNext<cr>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<S-Tab>', ':BufferLineCyclePrev<cr>', { noremap = true, silent = true })
     end
   }
   use {
