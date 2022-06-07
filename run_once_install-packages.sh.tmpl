@@ -45,22 +45,19 @@ if ! type oh-my-posh > /dev/null; then
   chmod +x /usr/local/bin/oh-my-posh
 fi
 
+{{ if ne .chezmoi.arch "arm64" -}}
+# TODO: can't install neovim when arch is arm
 if ! type nvim > /dev/null; then
   wget https://github.com/neovim/neovim/releases/latest/download/nvim-linux64.deb -O /tmp/nvim-linux64.deb
   apt-get install /tmp/nvim-linux64.deb
 fi
+{{- end }}
 
 if ! type delta > /dev/null; then
   wget https://github.com/dandavison/delta/releases/latest/download/git-delta_0.13.0_amd64.deb -O /tmp/git-delta_amd64.deb
   apt-get install /tmp/git-delta_amd64.deb
 fi
 {{- end }}
-
-# install packer for neovim
-if [ ! -e ~/.local/share/nvim/site/pack/packer ]; then
-  git clone --depth 1 https://github.com/wbthomason/packer.nvim \
-    ~/.local/share/nvim/site/pack/packer/start/packer.nvim
-fi
 
 {{ if not .remote_containers -}}
 # install tmux plugin manager

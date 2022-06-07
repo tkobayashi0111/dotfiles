@@ -1,7 +1,14 @@
-vim.cmd [[packadd packer.nvim]]
+-- install packer if needed
+local fn = vim.fn
+local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+if fn.empty(fn.glob(install_path)) > 0 then
+  PACKER_BOOTSTRAP = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+  vim.cmd [[packadd packer.nvim]]
+end
+
 
 require('packer').startup(function(use)
-  use { 'wbthomason/packer.nvim', opt = true }
+  use { 'wbthomason/packer.nvim' }
 
   use { 'vim-jp/vimdoc-ja' }
 
@@ -347,8 +354,8 @@ require('packer').startup(function(use)
         }
       })
 
-      vim.api.nvim_set_keymap('n', 'Gt', ':tabnext<cr>', { noremap = true, silent = true })
-      vim.api.nvim_set_keymap('n', 'GT', ':tabprevious<cr>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>gt', ':tabnext<cr>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<leader>GT', ':tabprevious<cr>', { noremap = true, silent = true })
       vim.api.nvim_set_keymap('n', 'gt', ':BufferLineCycleNext<cr>', { noremap = true, silent = true })
       vim.api.nvim_set_keymap('n', 'gT', ':BufferLineCyclePrev<cr>', { noremap = true, silent = true })
     end
@@ -416,4 +423,10 @@ require('packer').startup(function(use)
       }
     end
   }
+
+  -- Automatically set up your configuration after cloning packer.nvim
+  -- Put this at the end after all plugins
+  if PACKER_BOOTSTRAP then
+    require('packer').sync()
+  end
 end)
