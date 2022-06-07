@@ -109,7 +109,20 @@ require('packer').startup(function(use)
       { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
     },
     config = function()
+      local actions = require('telescope.actions')
+      local action_layout = require('telescope.actions.layout')
       require('telescope').setup {
+        defaults = {
+          mappings = {
+            i = {
+              ["<esc>"] = actions.close,
+              ["<M-p>"] = action_layout.toggle_preview
+            },
+            n = {
+              ["<M-p>"] = action_layout.toggle_preview
+            }
+          }
+        },
         extensions = {
           fzf = {
             fuzzy = true,
