@@ -202,6 +202,53 @@
           }
         }
       ]
+    },
+    {
+      "description": "iTerm2でctrl+spaceでcmd+space",
+      "manipulators": [
+        {
+          "type": "basic",
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^com\\.googlecode\\.iterm2$"
+              ]
+            }
+          ],
+          "from": {
+            "key_code": "spacebar",
+            "modifiers": {
+              "mandatory": ["left_control"]
+            }
+          },
+          "to": {
+            "key_code": "spacebar",
+            "modifiers": ["left_command"]
+          }
+        },
+        {
+          "type": "basic",
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^com\\.googlecode\\.iterm2$"
+              ]
+            }
+          ],
+          "from": {
+            "key_code": "spacebar",
+            "modifiers": {
+              "mandatory": ["left_command"]
+            }
+          },
+          "to": {
+            "key_code": "spacebar",
+            "modifiers": ["left_control"]
+          }
+        }
+      ]
     }
   ]
 }
