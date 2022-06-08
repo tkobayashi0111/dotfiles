@@ -66,6 +66,14 @@ require('packer').startup(function(use)
               conflict  = "",
             }
           }
+        },
+        event_handlers = {
+          {
+            event = "file_opened",
+            handler = function(file_path)
+              require('neo-tree').close_all()
+            end
+          }
         }
       })
 
@@ -276,6 +284,7 @@ require('packer').startup(function(use)
           -- { name = 'snippy' }, -- For snippy users.
         }, {
           { name = 'buffer' },
+          { name = 'path' },
         })
       })
     end
