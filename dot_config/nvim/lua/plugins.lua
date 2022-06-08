@@ -128,6 +128,16 @@ require('packer').startup(function(use)
             n = {
               ["<M-p>"] = action_layout.toggle_preview
             }
+          },
+          file_ignore_patterns = {
+            ".git",
+          },
+        },
+        pickers = {
+          live_grep = {
+            additional_args = function(opts)
+              return { "--hidden" }
+            end
           }
         },
         extensions = {
