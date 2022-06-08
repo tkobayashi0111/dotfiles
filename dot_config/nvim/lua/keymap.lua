@@ -18,3 +18,5 @@ api.nvim_set_keymap('n', 'gk', '<C-w>k', { noremap = true })
 api.nvim_set_keymap('n', 'gl', '<C-w>l', { noremap = true })
 
 api.nvim_set_keymap('n', '<esc><esc>', ':nohlsearch<cr>', { noremap = true })
+
+api.nvim_set_keymap('v', 'p', '"_dP', { noremap = true, silent = true })
