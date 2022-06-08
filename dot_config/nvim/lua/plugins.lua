@@ -1,8 +1,8 @@
 -- install packer if needed
 local fn = vim.fn
-local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
+local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
-  PACKER_BOOTSTRAP = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+  PACKER_BOOTSTRAP = fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
   vim.cmd [[packadd packer.nvim]]
 end
 
@@ -67,14 +67,6 @@ require('packer').startup(function(use)
             }
           }
         },
-        event_handlers = {
-          {
-            event = "file_opened",
-            handler = function(file_path)
-              require('neo-tree').close_all()
-            end
-          }
-        }
       })
 
       vim.api.nvim_set_keymap('n', '<leader>e', ':Neotree filesystem left focus toggle<cr>', { noremap = true, silent = true })
@@ -350,22 +342,43 @@ require('packer').startup(function(use)
           middle_mouse_command = 'bdelete! %d',
           diagnostics = 'nvim_lsp',
           separator_style = 'thick',
+          max_name_length = 50,
+          name_formatter = function(buf)
+            return vim.fn.pathshorten(vim.fn.fnamemodify(buf.path, ":~:."))
+          end,
           offsets = {
             {
               filetype = 'neo-tree',
               text = 'Neotree',
-            }
+            },
           },
-          name_formatter = function(buf)
-            return vim.fn.pathshorten(vim.fn.fnamemodify(buf.path, ":~:."))
-          end,
-          max_name_length = 50,
+          custom_filter = function(buf_number, buf_numbers)
+            -- hide [No Name]
+            local length = 0
+            for _ in pairs(buf_numbers) do
+              length = length + 1
+            end
+            if length > 1 and vim.fn.bufname(buf_number) == '' then
+              return false
+            end
+            return true
+          end
         }
       })
 
       vim.api.nvim_set_keymap('n', '<Tab>', ':BufferLineCycleNext<cr>', { noremap = true, silent = true })
       vim.api.nvim_set_keymap('n', '<S-Tab>', ':BufferLineCyclePrev<cr>', { noremap = true, silent = true })
     end
+  }
+  use {
+    'ojroques/nvim-bufdel',
+    config = function()
+      require('bufdel').setup({
+        quit = false,
+      })
+
+      vim.cmd [[nnoremap bd :BufDel<cr>]]
+    end,
   }
   use {
     'petertriho/nvim-scrollbar',
