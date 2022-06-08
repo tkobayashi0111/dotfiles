@@ -6,8 +6,22 @@ if fn.empty(fn.glob(install_path)) > 0 then
   vim.cmd [[packadd packer.nvim]]
 end
 
+local status_ok, packer = pcall(require, 'packer')
+if not status_ok then
+  return
+end
 
-require('packer').startup(function(use)
+packer.init({
+  display = {
+    open_fn = function()
+      return require('packer.util').float({
+        border = 'rounded'
+      })
+    end
+  }
+})
+
+return packer.startup(function(use)
   use { 'wbthomason/packer.nvim' }
 
   use { 'vim-jp/vimdoc-ja' }
