@@ -5,6 +5,8 @@
 {{- if index . "git_email" }}
   email = {{ .git_email }}
 {{- end }}
+[init]
+  defaultBranch = main
 [core]
   editor = nvim
   pager = delta
