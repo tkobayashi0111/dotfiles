@@ -1,5 +1,9 @@
 {
   "name": "dotfiles-development",
+  "runArgs": [
+    "--name",
+    "dotfiles-development"
+  ],
   "build": {
     "dockerfile": "Dockerfile",
     "context": ".."
