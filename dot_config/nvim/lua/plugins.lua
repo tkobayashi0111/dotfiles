@@ -395,14 +395,10 @@ return packer.startup(function(use)
     end
   }
   use {
-    'ojroques/nvim-bufdel',
+    'famiu/bufdelete.nvim',
     config = function()
-      require('bufdel').setup({
-        quit = false,
-      })
-
-      vim.cmd [[nnoremap bd :BufDel<cr>]]
-    end,
+      vim.cmd [[nnoremap bd :Bdelete<cr>]]
+    end
   }
   use {
     'petertriho/nvim-scrollbar',
