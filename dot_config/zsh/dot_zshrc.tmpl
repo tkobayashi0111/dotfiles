@@ -126,6 +126,11 @@ if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
 fi
 
 # ---------------------------------- 遅延読み込み ---------------------------------- #
-zinit wait lucid null for \
-    atinit'source "$ZDOTDIR/.zshrc.lazy"' \
-    @'zdharma-continuum/null'
+# intellijでの読み込みは遅延しない
+if [ -z "$INTELLIJ_ENVIRONMENT_READER" ]; then
+  zinit wait lucid null for \
+      atinit'source "$ZDOTDIR/.zshrc.lazy"' \
+      @'zdharma-continuum/null'
+else
+  source $ZDOTDIR/.zshrc.lazy
+fi
