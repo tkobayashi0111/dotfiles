@@ -144,7 +144,7 @@ return packer.startup(function(use)
             }
           },
           file_ignore_patterns = {
-            ".git",
+            ".git/",
           },
         },
         pickers = {
