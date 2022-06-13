@@ -425,12 +425,6 @@ return packer.startup(function(use)
       require('marks').setup {}
     end
   }
-  use({
-    'crispgm/nvim-tabline',
-    config = function()
-      require('tabline').setup({})
-    end,
-  })
 
   -- git
   use {
