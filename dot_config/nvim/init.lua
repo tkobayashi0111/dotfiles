@@ -3,7 +3,6 @@ local opt = vim.opt
 opt.helplang = 'ja,en'
 opt.termguicolors = true
 opt.number = true
-opt.relativenumber = true
 opt.clipboard:append('unnamedplus')
 opt.mouse = 'a'
 opt.swapfile = false
