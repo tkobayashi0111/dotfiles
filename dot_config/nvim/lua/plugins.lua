@@ -121,6 +121,17 @@ return packer.startup(function(use)
       require('nvim-autopairs').setup({})
     end
   }
+  use {
+    'akinsho/toggleterm.nvim',
+    tag = 'v1.*',
+    config = function()
+      require('toggleterm').setup({
+        size = 20,
+        open_mapping= [[<C-\>]],
+        direction = 'float',
+      })
+    end
+  }
 
   -- fuzzy finder
   use {
