@@ -2,7 +2,7 @@
   "title": "My Rules",
   "rules": [
     {
-      "description": "CapsLock+hjklでカーソル移動",
+      "description": "CapsLock+hjklでカーソル移動、単独で`",
       "manipulators": [
         {
           "type": "basic",
@@ -30,8 +30,7 @@
           ],
           "to_if_alone": [
             {
-              "_comment": "not working",
-              "key_code": "caps_lock"
+              "key_code": "grave_accent_and_tilde"
             }
           ]
         },
@@ -264,6 +263,23 @@
           "to": {
             "key_code": "grave_accent_and_tilde",
             "modifiers": ["shift"]
+          }
+        }
+      ]
+    },
+    {
+      "description": "fn2+escで`",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "grave_accent_and_tilde",
+            "modifiers": {
+              "mandatory": ["shift"]
+            }
+          },
+          "to": {
+            "key_code": "grave_accent_and_tilde"
           }
         }
       ]
