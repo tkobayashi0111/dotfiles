@@ -123,7 +123,7 @@ return packer.startup(function(use)
   }
   use {
     'akinsho/toggleterm.nvim',
-    tag = 'v1.*',
+    tag = '*',
     config = function()
       require('toggleterm').setup({
         size = 20,
@@ -177,14 +177,6 @@ return packer.startup(function(use)
       require('telescope').load_extension('fzf')
       vim.api.nvim_set_keymap('n', '<C-p>', '<cmd>Telescope find_files hidden=true<cr>', { noremap = true, silent = true })
       vim.api.nvim_set_keymap('n', '<C-f>', '<cmd>Telescope live_grep<cr>', { noremap = true, silent = true })
-    end
-  }
-  use {
-    'mrjones2014/legendary.nvim',
-    requires = { 'stevearc/dressing.nvim' },
-    config = function()
-      require('legendary').setup({ include_builtin = true })
-      -- vim.api.nvim_set_keymap('n', '<C-p>', '<cmd>lua require("legendary").find()<CR>', { noremap = true, silent = true })
     end
   }
 
