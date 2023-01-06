@@ -30,5 +30,5 @@ opt.smartcase = true
 opt.list = true
 opt.listchars:append('lead:·')
 
-require('keymap')
 require('plugins')
+require('keymap')

@@ -102,7 +102,11 @@ return packer.startup(function(use)
   use {
     'bkad/CamelCaseMotion',
     setup = function()
-      vim.g.camelcasemotion_key = ','
+      vim.g.camelcasemotion_key = '<leader>'
+    end,
+    config = function()
+      -- CamelCaseMotionで上書きされるため
+      vim.api.nvim_set_keymap('n', '<leader>w', ':w<cr>', { noremap = true })
     end
   }
   use { 'markonm/traces.vim' }
