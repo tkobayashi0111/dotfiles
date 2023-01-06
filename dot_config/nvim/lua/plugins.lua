@@ -399,9 +399,6 @@ return packer.startup(function(use)
   }
   use {
     'famiu/bufdelete.nvim',
-    config = function()
-      vim.cmd [[nnoremap bd :Bdelete<cr>]]
-    end
   }
   use {
     'petertriho/nvim-scrollbar',
