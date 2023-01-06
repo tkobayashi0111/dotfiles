@@ -402,11 +402,16 @@ return packer.startup(function(use)
   }
   use {
     'petertriho/nvim-scrollbar',
-    requires = 'kevinhwang91/nvim-hlslens',
     config = function()
       require("scrollbar").setup()
-      require('scrollbar.handlers.search').setup()
     end
+  }
+  use {
+  "kevinhwang91/nvim-hlslens",
+    config = function()
+      -- require nvim-scrollbar
+      require("scrollbar.handlers.search").setup({})
+    end,
   }
   use {
     'chentoast/marks.nvim',
@@ -420,6 +425,8 @@ return packer.startup(function(use)
     'lewis6991/gitsigns.nvim',
     config = function()
       require('gitsigns').setup()
+      -- require nvim-scrollbar
+      require('scrollbar.handlers.gitsigns').setup()
     end
   }
   use { 'tpope/vim-fugitive' }
