@@ -1,5 +1,6 @@
 gui:
   sidePanelWidth: 0.3
+  showIcons: true
 git:
   paging:
     pager: delta --paging=never
