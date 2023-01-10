@@ -208,14 +208,6 @@ return packer.startup(function(use)
       vim.api.nvim_set_keymap('n', 's', ':HopChar2<cr>', { noremap = true })
     end
   }
-  use {
-    'karb94/neoscroll.nvim',
-    config = function()
-      require('neoscroll').setup({
-        mappings = { '<C-u>', '<C-d>', 'zt', 'zz', 'zb' }
-      })
-    end
-  }
 
   -- lsp
   use {
