@@ -7,6 +7,9 @@ if ! type xsel > /dev/null; then
   sudo apt-get update
   sudo apt-get install -y xsel
 fi
+
+# snap
+sudo snap install ripgrep
 {{- end }}
 
 {{ if not .remote_containers -}}
