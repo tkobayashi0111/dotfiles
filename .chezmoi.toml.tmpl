@@ -17,6 +17,13 @@ sourceDir = {{ .chezmoi.sourceDir | quote }}
   git_email = {{ promptString "git user.email" | quote }}
 {{- end }}
 {{- end }}
+{{- if $wsl }}
+{{- if index . "windows_username"}}
+  windows_username = {{ .windows_username | quote }}
+{{- else }}
+  windows_username = {{ promptString "windows username" | quote }}
+{{- end}}
+{{- end }}
 
 [merge]
   command = "nvim"

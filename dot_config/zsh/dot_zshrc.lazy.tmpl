@@ -62,8 +62,10 @@ export TERM=xterm-256color
     {{- end }}
 fi
 
-# vscode for wsl ※ don't commit this line
-export PATH=$PATH:'/mnt/c/Users/tkobayashi0111/AppData/Local/Programs/Microsoft VS Code/bin'
+{{ if .wsl }}
+# vscode for wsl
+export PATH=$PATH:'/mnt/c/Users/{{ .windows_username }}/AppData/Local/Programs/Microsoft VS Code/bin'
+{{- end }}
 
 
 # ---------------------------------------------------------------------------- #
