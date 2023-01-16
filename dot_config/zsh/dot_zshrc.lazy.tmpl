@@ -67,6 +67,12 @@ fi
 export PATH=$PATH:'/mnt/c/Users/{{ .windows_username }}/AppData/Local/Programs/Microsoft VS Code/bin'
 {{- end }}
 
+{{ if eq .chezmoi.os "darwin" }}
+# Chrome
+    if [ -e ~/Applications/Google\ Chrome.app ]; then
+        export CHROME_EXECUTABLE=~/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome
+    fi
+{{- end }}
 
 # ---------------------------------------------------------------------------- #
 #                                    plugin                                    #
