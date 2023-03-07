@@ -35,7 +35,7 @@ brew bundle --global --verbose
 {{- else -}}
 
 # linux distro
-source /etc/os-release
+. /etc/os-release
 ID=${ID_LIKE:-$ID}
 case "$ID" in
   *debian*)
@@ -68,6 +68,7 @@ case "$ID" in
   *)
     echo "Not Supported Distro ID: ${ID}"
     ;;
+esac
 
 if ! type oh-my-posh > /dev/null; then
   wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh
