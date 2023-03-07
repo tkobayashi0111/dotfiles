@@ -6,15 +6,20 @@
   ],
   "build": {
     "dockerfile": "Dockerfile",
-    "context": ".."
+    "context": "..",
+    "target": "debian",
   },
-  "settings": {
-    "terminal.integrated.profiles.linux": {
-      "zsh": {
-        "path": "/usr/bin/zsh"
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.profiles.linux": {
+          "zsh": {
+            "path": "/usr/bin/zsh"
+          }
+        },
+        "terminal.integrated.defaultProfile.linux": "zsh",
       }
-    },
-    "terminal.integrated.defaultProfile.linux": "zsh",
+    }
   },
-  "onCreateCommand": "sh -c \"$(curl -fsLS chezmoi.io/get)\" -- init --apply -S ${containerWorkspaceFolder}"
+  "postCreateCommand": "sh -c \"$(curl -fsLS get.chezmoi.io)\" && ./bin/chezmoi init --apply -S ${containerWorkspaceFolder}"
 }
