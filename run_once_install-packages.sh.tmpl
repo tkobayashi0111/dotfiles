@@ -34,17 +34,40 @@ brew bundle --global --verbose
 
 {{- else -}}
 
-apt-get update
-apt-get install -y \
-  build-essential \
-  zsh \
-  wget \
-  bat \
-  exa \
-  fzf \
-  jq \
-  ripgrep \
-  openssh-client
+# linux distro
+source /etc/os-release
+ID=${ID_LIKE:-$ID}
+case "$ID" in
+  *debian*)
+    apt-get update
+    apt-get install -y \
+      build-essential \
+      zsh \
+      wget \
+      bat \
+      exa \
+      fzf \
+      jq \
+      ripgrep \
+      openssh-client
+    ;;
+  alpine)
+    apk update
+    apk add \
+      alpine-sdk \
+      zsh \
+      wget \
+      bat \
+      exa \
+      fzf \
+      jq \
+      ripgrep \
+      openssh-client \
+      neovim
+    ;;
+  *)
+    echo "Not Supported Distro ID: ${ID}"
+    ;;
 
 if ! type oh-my-posh > /dev/null; then
   wget https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -O /usr/local/bin/oh-my-posh
