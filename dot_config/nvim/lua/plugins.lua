@@ -356,42 +356,27 @@ return packer.startup(function(use)
     end
   }
   use {
-    'akinsho/bufferline.nvim',
-    tag = 'v2.*',
-    requires = 'kyazdani42/nvim-web-devicons',
+    'romgrk/barbar.nvim',
+    requires = 'nvim-web-devicons',
+    setup = function()
+      vim.g.barbar_auto_setup = false
+    end,
     config = function()
-      require('bufferline').setup({
-        options = {
-          middle_mouse_command = 'bdelete! %d',
-          diagnostics = 'nvim_lsp',
-          separator_style = 'thick',
-          max_name_length = 50,
-          name_formatter = function(buf)
-            return vim.fn.pathshorten(vim.fn.fnamemodify(buf.path, ":~:."))
-          end,
-          offsets = {
-            {
-              filetype = 'neo-tree',
-              text = 'Neotree',
-            },
-          },
-          custom_filter = function(buf_number, buf_numbers)
-            -- hide [No Name]
-            local length = 0
-            for _ in pairs(buf_numbers) do
-              length = length + 1
-            end
-            if length > 1 and vim.fn.bufname(buf_number) == '' then
-              return false
-            end
-            return true
-          end
-        }
+      require('barbar').setup({
+        sidebar_filetypes = {
+          ['neo-tree'] = {event = 'BufWipeout'},
+        },
       })
 
-      vim.api.nvim_set_keymap('n', '<Tab>', ':BufferLineCycleNext<cr>', { noremap = true, silent = true })
-      vim.api.nvim_set_keymap('n', '<S-Tab>', ':BufferLineCyclePrev<cr>', { noremap = true, silent = true })
-    end
+      local map = vim.api.nvim_set_keymap
+      local opts = { noremap = true, silent = true }
+
+      map('n', '<Tab>', '<Cmd>BufferNext<CR>', opts)
+      map('n', '<S-Tab>', '<Cmd>BufferPrevious<CR>', opts)
+      map('n', '<A-h>', '<Cmd>BufferMovePrevious<CR>', opts)
+      map('n', '<A-l>', '<Cmd>BufferMoveNext<CR>', opts)
+      map('n', '<Leader>q', '<Cmd>BufferClose<CR>', opts)
+    end,
   }
   use {
     'famiu/bufdelete.nvim',
