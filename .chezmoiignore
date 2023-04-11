@@ -1,6 +1,7 @@
 README.md
 install.sh
 .devcontainer
+/bin
 
 {{- if eq (env "REMOTE_CONTAINERS") "true" }}
 /.config/git
