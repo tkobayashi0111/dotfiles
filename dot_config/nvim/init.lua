@@ -16,6 +16,7 @@ opt.showtabline = 2
 opt.splitright = true
 opt.wildmenu = true
 opt.wildmode = 'list:longest'
+opt.laststatus = 3
 
 opt.expandtab = true
 opt.tabstop = 2

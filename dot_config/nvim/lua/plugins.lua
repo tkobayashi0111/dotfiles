@@ -344,6 +344,9 @@ return packer.startup(function(use)
     requires = { 'kyazdani42/nvim-web-devicons', opt = true },
     config = function()
       require('lualine').setup({
+        options = {
+          globalstatus = true,
+        },
         sections = {
           lualine_c = {
             {
