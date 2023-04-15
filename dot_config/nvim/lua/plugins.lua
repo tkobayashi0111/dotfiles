@@ -49,7 +49,7 @@ return packer.startup(function(use)
     branch = 'v2.x',
     requires = {
       'nvim-lua/plenary.nvim',
-      'kyazdani42/nvim-web-devicons', -- not strictly required, but recommended
+      'nvim-tree/nvim-web-devicons', -- not strictly required, but recommended
       'MunifTanjim/nui.nvim',
     },
     config = function()
@@ -80,6 +80,11 @@ return packer.startup(function(use)
               conflict  = "",
             }
           }
+        },
+        window = {
+          mappings = {
+            ["<cr>"] = "open_tab_drop",
+          },
         },
       })
 
@@ -162,13 +167,6 @@ return packer.startup(function(use)
             ".git/",
           },
         },
-        pickers = {
-          live_grep = {
-            additional_args = function(opts)
-              return { "--hidden" }
-            end
-          }
-        },
         extensions = {
           fzf = {
             fuzzy = true,
@@ -179,8 +177,8 @@ return packer.startup(function(use)
         }
       }
       require('telescope').load_extension('fzf')
-      vim.api.nvim_set_keymap('n', '<C-p>', '<cmd>Telescope find_files hidden=true<cr>', { noremap = true, silent = true })
-      vim.api.nvim_set_keymap('n', '<C-f>', '<cmd>Telescope live_grep<cr>', { noremap = true, silent = true })
+      vim.api.nvim_set_keymap('n', '<C-P>', '<cmd>Telescope find_files find_command=rg,--files,--hidden,--no-ignore<cr>', { noremap = true })
+      vim.api.nvim_set_keymap('n', '<C-f>', '<cmd>Telescope live_grep<cr>', { noremap = true })
     end
   }
 
@@ -359,30 +357,22 @@ return packer.startup(function(use)
     end
   }
   use {
-    'romgrk/barbar.nvim',
-    requires = 'nvim-web-devicons',
-    setup = function()
-      vim.g.barbar_auto_setup = false
-    end,
-    config = function()
-      require('barbar').setup({
-        sidebar_filetypes = {
-          ['neo-tree'] = {event = 'BufWipeout'},
-        },
-      })
-
-      local map = vim.api.nvim_set_keymap
-      local opts = { noremap = true, silent = true }
-
-      map('n', '<Tab>', '<Cmd>BufferNext<CR>', opts)
-      map('n', '<S-Tab>', '<Cmd>BufferPrevious<CR>', opts)
-      map('n', '<A-h>', '<Cmd>BufferMovePrevious<CR>', opts)
-      map('n', '<A-l>', '<Cmd>BufferMoveNext<CR>', opts)
-      map('n', '<Leader>q', '<Cmd>BufferClose<CR>', opts)
-    end,
+    'nanozuki/tabby.nvim',
+    config = function ()
+      require('tabby.tabline').use_preset('tab_only')
+    end
   }
   use {
-    'famiu/bufdelete.nvim',
+    'fgheng/winbar.nvim',
+    required = 'nvim-web-devicons',
+    config = function()
+      require('winbar').setup({
+        enabled = true,
+        exclude_filetype = {
+          'neo-tree',
+        },
+      })
+    end,
   }
   use {
     'petertriho/nvim-scrollbar',
