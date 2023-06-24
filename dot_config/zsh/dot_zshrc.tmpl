@@ -130,6 +130,13 @@ if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
   eval "$(oh-my-posh init zsh --config ~/.ohmyposh.mytheme.json)"
 fi
 
+# ---------------------------------------------------------------------------- #
+#                                    asdf                                      #
+# ---------------------------------------------------------------------------- #
+if command -v brew &> /dev/null; then
+  eval ". $(brew --prefix asdf)/libexec/asdf.sh"
+fi
+
 # ---------------------------------- 遅延読み込み ---------------------------------- #
 # intellij, vscodeでの読み込みは遅延しない
 if [ -z "$INTELLIJ_ENVIRONMENT_READER" ] && [ -z "VSCODE_CLI" ]; then
