@@ -38,6 +38,11 @@ export TERM=xterm-256color
         export PATH=$PATH:~/fvm/default/bin
     fi
 
+# colima
+    if command -v colima &> /dev/null; then
+        export DOCKER_HOST="unix://${HOME}/.colima/default/docker.sock"
+    fi
+
 # JDK
     if [ -e /usr/lib/jvm/java-11/openjdk-amd64 ]; then
         export JAVA_HOME=/usr/lib/jvm/java-11/openjdk-amd64
